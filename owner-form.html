@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मालिक पंजीकरण - My Indian Workers</title>
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; }
+        
+        /* कार्ड की चौड़ाई थोड़ी बढ़ा दी गई है ताकि यह पतला न लगे */
+        .form-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; margin-bottom: 20px; box-sizing: border-box; }
+        
+        h2 { color: #d35400; margin-bottom: 15px; font-size: 24px; border-bottom: 2px solid #f39c12; display: inline-block; padding-bottom: 5px; }
+        
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        
+        .input-group { display: flex; gap: 8px; align-items: center; margin: 10px 0; }
+        .input-group select { width: 100px; margin: 0; flex-shrink: 0; }
+        .input-group input { margin: 0; flex: 1; }
+
+        .submit-btn { width: 100%; background-color: #d35400; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { background-color: #e67e22; }
+        
+        .bank-card { width: 100%; max-width: 500px; padding: 20px; border: 2px solid #d35400; border-radius: 15px; background: #fffaf5; text-align: left; box-sizing: border-box; }
+        
+        .warning-box { background: #fff3cd; color: #856404; padding: 12px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffeeba; font-size: 14px; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <h2>मालिक पंजीकरण</h2>
+    <p style="color: #666; margin-bottom: 15px;">सेवा बुक करने के लिए रजिस्टर करें</p>
+
+    <div class="warning-box">
+        <strong>⚠️ ध्यान दें:</strong> बुकिंग करने के लिए पहले "मालिक रजिस्ट्रेशन" अनिवार्य है।
+    </div>
+
+    <form id="ownerForm">
+        <input type="hidden" name="userType" value="owner">
+        
+        <input type="text" name="regName"
+        id="regName"
+        placeholder="आपका पूरा नाम" required>
+        
+        <div class="input-group">
+            <select name="countryCode" required>
+                <option value="+91">+91 (IN)</option>
+                <option value="+966">+966 (SA)</option>
+                <option value="+971">+971 (UAE)</option>
+            </select>
+            <input type="tel" 
+       name="regMobile" 
+       id="regMobile"
+       placeholder="मोबाइल नंबर (10 अंक)" 
+       pattern="[0-9]{10}" 
+       title="कृपया 10 अंकों का सही मोबाइल नंबर डालें" 
+       maxlength="10" 
+       required>
+
+        </div>
+        
+        <input type="text" name="regCity"
+        id="regCity"
+        placeholder="अपना शहर (जैसे: अयोध्या)" required>
+        <button type="submit" class="submit-btn">सबमिट करें</button>
+    </form>
+    
+<hr style="margin: 25px 0; border: 1px solid #ddd;">
+
+<div id="bookingSection" style="text-align: center;">
+    <p style="font-size: 14px; color: #666;">रजिस्ट्रेशन के बाद बुकिंग के लिए नीचे क्लिक करें:</p>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 2px dashed #d35400;">
+
+    <button type="button" onclick="showBookingForm()" style="width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer;">
+        + कारीगर बुक करें (Worker Booking)
+    </button>
+
+    <section id="booking-section" style="display: none; padding: 15px; background: #fdf2e9; border-radius: 15px; margin-top: 20px;">
+        <h3 style="color: #d35400;">कारीगर बुक करें</h3>
+        <form id="bookingForm">
+            <input type="hidden" name="userType" value="Booking">
+            <input type="text" name="ownerName" 
+            id="ownerName"
+            placeholder="आपका नाम" required>
+            <input type="tel" name="regMobile" 
+            id="bookMobile"
+            placeholder="मोबाइल नंबर" required>
+            <select name="serviceType" required>
+                <option value="">कौन सा काम है?</option>
+                <option value="Plumber">प्लंबर</option>
+                <option value="Electrician">इलेक्ट्रीशियन</option>
+                <option value="Rajmistri">राजमिस्त्री</option>
+                <option value="Carpenter">कारपेंटर</option>
+            </select>
+            <textarea name="address"
+            id="regAddress"
+            placeholder="पूरा पता लिखें" required></textarea>
+            <button type="submit" class="submit-btn" style="background:#27ae60;">बुकिंग कन्फर्म करें ✅</button>
+        </form>
+    </section>
+
+</div>
+
+<div class="bank-card">
+    <h3 style="color:#d35400; margin-top:0; font-size:18px; text-align: center;">💳 भुगतान जानकारी</h3>
+    <hr style="border: 1px dashed #d35400;">
+    <p><strong>खाता धारक:</strong> MY INDIAN KARIGAR</p>
+    <p><strong>बैंक:</strong> STATE BANK OF INDIA</p>
+    <p><strong>IFSC:</strong> SBIN000XXXX</p>
+    
+    
+    
+</div>
+
+    <br>
+    <a href="index.html" style="color: #7f8c8d; text-decoration: none; font-size: 14px;">← वापस जाएँ</a>
+
+<script>
+function showBookingForm() {
+    var section = document.getElementById("booking-section");
+    if (section) {
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+
+   
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
