@@ -1,4 +1,3 @@
-
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuNgvUNcDQXt-D4JfazMY8VZG9tRVAnYv-rTtdfoXKDysRLbSK8ut3lKSnb5ihYJfl/exec";
 
 
