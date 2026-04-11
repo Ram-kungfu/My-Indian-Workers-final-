@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>मालिक पंजीकरण - My Indian Workers</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    
     <style>
         body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; }
         
@@ -63,6 +65,18 @@
         <input type="text" name="regCity"
         id="regCity"
         placeholder="अपना शहर (जैसे: अयोध्या)" required>
+        
+              
+<div style="text-align: left; margin: 15px 0; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+    <label style="font-weight: bold; color: #333; display: block; margin-bottom: 10px;">आधार कार्ड अपलोड (Front & Back):</label>
+
+    <input type="file" name="aadharFront" id="aadharFront" accept="image/*" capture="camera" required>
+    <small style="color: gray; display: block; margin-bottom: 10px;">सामने की फोटो (Front)</small>
+
+    <input type="file" name="aadharBack" id="aadharBack" accept="image/*" capture="camera" required>
+    <small style="color: gray; display: block;">पीछे की फोटो (Back)</small>
+</div>
+        
         <button type="submit" class="submit-btn">सबमिट करें</button>
     </form>
     
@@ -84,9 +98,9 @@
             <input type="text" name="ownerName" 
             id="ownerName"
             placeholder="आपका नाम" required>
-            <input type="tel" name="regMobile" 
-            id="bookMobile"
-            placeholder="मोबाइल नंबर" required>
+            
+<input type="tel" name="regMobile" id="bookMobile" placeholder="मोबाइल नंबर" maxlength="10" required>
+
             <select name="serviceType" required>
                 <option value="">कौन सा काम है?</option>
                 <option value="Plumber">प्लंबर</option>
@@ -103,16 +117,22 @@
 
 </div>
 
+<div class="condition-text">
+    <strong>⚠️ कंडीसन:</strong> वर्कर घर पर पहुंचने पर काम की जानकारी के बाद आधा पेमेंट My Indian Workers के खाते में डालना होगा। और काम खत्म होने के 1 दिन पहले कर्मी के पहुंचने के पहले पूरा पेमेंट करना होगा अन्यथा एक दिन पहले काम रोक दिया जाएगा। धन्यवाद।🙏
+</div>
+
+<button type="button" class="payment-btn" onclick="goToPayment()">
+    💰 पेमेंट करें (Pay Now)
+</button>
+
 <div class="bank-card">
     <h3 style="color:#d35400; margin-top:0; font-size:18px; text-align: center;">💳 भुगतान जानकारी</h3>
     <hr style="border: 1px dashed #d35400;">
     <p><strong>खाता धारक:</strong> MY INDIAN KARIGAR</p>
     <p><strong>बैंक:</strong> STATE BANK OF INDIA</p>
     <p><strong>IFSC:</strong> SBIN000XXXX</p>
-    
-    
-    
 </div>
+
 
     <br>
     <a href="index.html" style="color: #7f8c8d; text-decoration: none; font-size: 14px;">← वापस जाएँ</a>
@@ -125,6 +145,16 @@ function showBookingForm() {
         section.scrollIntoView({ behavior: 'smooth' });
     }
 }
+
+
+
+function goToPayment() {
+    // यह मालिक को सीधे पेमेंट वाले पेज पर ले जाएगा
+    window.location.href = 'payment-success.html'; 
+}
+
+
+
 
 
    

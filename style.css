@@ -231,3 +231,57 @@ footer p span.brand-name {
     word-wrap: break-word; /* लंबा शब्द होने पर अगली लाइन में आ जाएगा */
     padding: 0 10px;
 }
+
+
+/* जब बटन लॉक हो तो ऐसा दिखेगा */
+.btn-disabled {
+    background-color: #bdc3c7 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+
+/* कंडीशन टेक्स्ट को लाल करने के लिए सुधार */
+.condition-text {
+    color: #ff0000 !important; /* शुद्ध लाल रंग और सबसे ज्यादा प्राथमिकता */
+    font-weight: bold !important;
+    font-size: 15px;
+    margin: 20px 0;
+    text-align: left;
+    line-height: 1.6;
+    display: block; /* यह पक्का करेगा कि यह सही से दिखे */
+}
+
+
+.payment-btn {
+    width: 100%;
+    background: linear-gradient(45deg, #f1c40f, #f39c12);
+    color: #000;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.payment-btn:hover {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+}
+
+/* इसे CSS फ़ाइल में सबसे नीचे पेस्ट करें */
+div.condition-text {
+    color: red !important;
+    color: #ff0000 !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    display: block !important;
+    visibility: visible !important;
+}
+

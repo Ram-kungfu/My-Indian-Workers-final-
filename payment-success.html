@@ -5,49 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>बुकिंग सफल - My Indian Karigar</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .success-card { background: #ffffff; max-width: 450px; width: 90%; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        .icon-box { width: 80px; height: 80px; background: #27ae60; color: white; font-size: 40px; line-height: 80px; border-radius: 50%; margin: 0 auto 20px; }
-        h2 { color: #27ae60; margin: 0 0 10px; }
-        .booking-id { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 50px; font-weight: bold; display: inline-block; margin-bottom: 20px; }
-        .warning-text { color: #d35400; font-weight: bold; font-size: 14px; margin-bottom: 20px; padding: 10px; background: #fff3e0; border-radius: 8px; }
-        .bank-details { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 12px; padding: 15px; text-align: left; margin-bottom: 25px; }
-        .bank-details p { margin: 5px 0; font-size: 14px; color: #333; }
-        .bank-details b { color: #555; }
-        .whatsapp-btn { display: block; background: #25D366; color: white; text-decoration: none; padding: 15px; border-radius: 10px; font-weight: bold; transition: 0.3s; }
-        .whatsapp-btn:hover { background: #128C7E; transform: translateY(-2px); }
-        .home-link { display: inline-block; margin-top: 20px; color: #777; text-decoration: none; font-size: 14px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        
+        .container { background: white; width: 100%; max-width: 480px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; overflow: hidden; padding-bottom: 20px; }
+        
+        .header { background: #27ae60; padding: 30px 15px; color: white; }
+        .success-icon { font-size: 50px; background: white; color: #27ae60; border-radius: 50%; width: 70px; height: 70px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+        
+        .content { padding: 20px; }
+        h2 { color: #27ae60; font-size: 22px; margin-bottom: 15px; }
+        .booking-id { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 50px; font-weight: bold; font-size: 14px; margin-bottom: 15px; display: inline-block; }
+
+        .warning-box { background: #fff4e5; border-left: 5px solid #ff9800; padding: 12px; margin-bottom: 20px; text-align: left; border-radius: 8px; font-size: 14px; }
+        
+        .payment-card { border: 1px solid #ddd; border-radius: 12px; padding: 15px; background: #fafafa; margin-bottom: 20px; }
+        .bank-details { text-align: left; font-size: 14px; line-height: 1.8; }
+        
+        .copy-btn { background: #f39c12; color: white; border: none; padding: 2px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 5px; }
+
+        .qr-code { width: 180px; height: 180px; margin: 15px auto; border: 3px solid #ddd; padding: 5px; display: block; }
+
+        .upi-btn { width: 100%; background: #2980b9; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin: 15px 0; cursor: pointer; }
+        
+        .wa-button { background: #25d366; color: white; text-decoration: none; padding: 15px; border-radius: 8px; display: block; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        
+        hr { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
+        
+        .upi-btn {
+    display: block;
+    background: #2980b9; /* नीला रंग */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+        
     </style>
 </head>
 <body>
 
-<div class="success-card">
-    <div class="icon-box">✓</div>
-    <h2>बुकिंग स्वीकार की गई!</h2>
-    <div class="booking-id" id="displayId">ID: #MIB-8472</div>
-    
-    <p class="warning-text">⚠️ महत्वपूर्ण: बुकिंग कन्फर्म करने के लिए ₹200 का एडवांस भुगतान अनिवार्य  है!</p>
-    
-    <div class="bank-details">
-        <p><b>बैंक का नाम:</b> State Bank of India</p>
-        <p><b>खाता धारक:</b> My Indian Karigar</p>
-        <p><b>अकाउंट नंबर:</b> 12345678901</p>
-        <p><b>IFSC कोड:</b> SBIN0001234</p>
+<div class="container">
+    <div class="header">
+        <div class="success-icon">✓</div>
+        <h2 style="color:white; margin:0;">बुकिंग स्वीकार की गई!</h2>
     </div>
 
-    <p style="font-size: 13px; color: #666;">भुगतान के बाद नीचे दिए गए बटन पर क्लिक करके स्क्रीनशॉट व्हाट्सएप (WhatsApp) करें।</p>
-    
-    <a href="https://wa.me/91XXXXXXXXXX?text=नमस्ते, मैंने अभी बुकिंग की है। यहाँ मेरा पेमेंट स्क्रीनशॉट है।" class="whatsapp-btn" target="_blank">
-        WhatsApp पर स्क्रीनशॉट भेजें
-    </a>
+    <div class="content">
+        <div class="booking-id">ID: #MIB-5797</div>
 
-    <a href="index.html" class="home-link">← होम पेज पर वापस जाएं</a>
+        <div class="warning-box">
+            <strong>⚠️ महत्वपूर्ण:</strong> बुकिंग कन्फर्म करने के लिए ₹200 का एडवांस पेमेंट अनिवार्य है।
+        </div>
+
+        <div class="payment-card">
+            <h3 style="font-size:16px; color:#d35400; margin-bottom:10px;">💳 सुरक्षित भुगतान (Bank Details)</h3>
+            <div class="bank-details">
+                <p>नाम: <b>MY INDIAN KARIGAR</b></p>
+                <p>बैंक: <b>AXIS BANK</b></p>
+                <p>A/C: <b>924010045446944</b> <button class="copy-btn" onclick="copyText('9793400647')">Copy</button></p>
+                <p>IFSC: <b>UTIB0005282</b> <button class="copy-btn" onclick="copyText('SBIN000XXXX')">Copy</button></p>
+            </div>
+        </div>
+
+<a href="upi://pay?pa=9793400647@ptyes&pn=My%20Indian%20Karigar&cu=INR&am=200" class="upi-btn">
+    📱 Google Pay / PhonePe से पे करें
+</a>
+
+
+        <strong>QR कोड स्कैन करें</strong>
+        <img src="my_qr_code.jpg" alt="QR Code" class="qr-code">
+
+
+       
+
+
+        <hr>
+
+        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+            भुगतान के बाद स्क्रीनशॉट व्हाट्सएप पर भेजें:
+        </p>
+        
+      
+
+        
+
+        <a href="https://wa.me/919793400647?text=नमस्ते%2C%20मैंने%20एडवांस%20पेमेंट%20कर%20दिया%20है।" 
+   class="wa-button" 
+   style="text-decoration: none; display: block; text-align: center;" 
+   target="_blank">
+    WhatsApp पर स्क्रीनशॉट भेजें
+</a>
+
+
+        <br>
+        <a href="index.html" style="color: #7f8c8d; text-decoration: none; font-size: 13px;">← वापस जाएँ</a>
+    </div>
 </div>
 
 <script>
-    // रैंडम आईडी जेनरेट करने के लिए
-    document.getElementById('displayId').innerText = "ID: #MIB-" + Math.floor(1000 + Math.random() * 9000);
+    function openUPI() {
+        const upiLink = "upi://pay?pa=9793400647@ptyes&pn=My%20Indian%20Karigar&cu=INR&am=200";
+        
+        // सीधे विंडो लोकेशन बदलना
+        window.location.href = upiLink;
+
+        // अगर 2 सेकंड में ऐप नहीं खुला, तो अलर्ट दिखाएँ
+        setTimeout(() => {
+            alert("यदि UPI ऐप नहीं खुला, तो कृपया QR कोड का स्क्रीनशॉट लेकर पेमेंट करें या बैंक डिटेल्स कॉपी करें।");
+        }, 2000);
+    }
+
+   
+    function openWhatsApp() {
+    const phone = "8840393880"; 
+    const message = encodeURIComponent("नमस्ते, मैंने ₹200 का एडवांस पेमेंट कर दिया है। मेरी बुकिंग आईडी #MIB-5797 है।");
+    
+    // यह नया और सही तरीका है
+    const waUrl = "https://wa.me/" + phone + "?text=" + message;
+    
+    window.location.assign(waUrl);
+}
+
+
+    // बाकी के पुराने फंक्शन (जैसे copyText) इसके नीचे रहेंगे
+ 
+
+
+
+    function copyText(val) {
+        const tempInput = document.createElement("input");
+        tempInput.value = val;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("कॉपी हो गया: " + val);
+    }
+    
+   function payNow() {
+    // आपका UPI लिंक
+    var upiLink = "upi://pay?pa=9793400647@ptyes&pn=My%20Indian%20Karigar&cu=INR&am=200";
+    
+    // यह मोबाइल के ऐप्स को खोलने की कोशिश करेगा
+    window.location.href = upiLink;
+
+    // अगर ऐप नहीं खुलता, तो मैसेज दिखाएगा
+    setTimeout(function() {
+        alert("अगर UPI ऐप नहीं खुला, तो कृपया QR कोड स्कैन करें।");
+    }, 2500);
+}
+
+
+    
 </script>
-window.location.href = 'payment-success.html';
+
 </body>
 </html>
