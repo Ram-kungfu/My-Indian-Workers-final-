@@ -38,17 +38,39 @@
 
 <div class="card">
     <h2>🛠️ वर्कर अटेंडेंस</h2>
-    <p> 1.पहले कैमरा दबाकर  जीपीएस कैमरा द्वारा खिंचा हुआ  फोटो  अपलोड करें। ।</p>
+    <p> 1.पहले कैमरा दबाकर  फोटो खींचें।</p>
     
     <div class="camera-trigger" onclick="triggerCamera()">
         <span style="font-size: 35px;">📷</span>
     </div>
     
     <img id="preview" src="" alt="Worker Photo">
+    
+    <div style="background:white; padding:20px; border-radius:15px; box-shadow:0 4px 8px rgba(0,0,0,0.1); text-align: center;">
+      
+       अथवा नीचे जीपीएस कैमरा द्वारा खिचा हुआ  फोटो  अपलोड करें।
+      
+    <h3>📸 फोटो अपलोड / हाजिरी</h3>
+    
+    <input type="file" id="attendanceFile" accept="image/*" style="display: none;" onchange="alert('फोटो सेलेक्ट हो गई!')">
+
+    <div onclick="document.getElementById('attendanceFile').click()" style="cursor:pointer; margin-bottom: 20px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" width="60" alt="Camera">
+        <p style="font-size: 12px; color: gray;">फोटो चुनें या खींचें</p>
+    </div>
+
+   
+
+
 
     <p id="instruction">2. अब अपनी हाजिरी चुनें</p>
     
-    <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;" onchange="showPreview()">
+   
+    
+    <input type="file" id="attendanceFile" accept="image/*" style="display: none;" onchange="showPreview(this)">
+<input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;" onchange="showPreview(this)">
+
+    
     
     <button id="btnIn" class="btn-in" onclick="processAttendance('In')" disabled>📸 पहुँच गया (Check In)</button>
     
@@ -72,13 +94,17 @@ function triggerCamera() {
 }
 
 // 2. फोटो खींचने के बाद बटनों को सक्रिय (Enable) करना
-function showPreview() {
-    const file = document.getElementById("cameraInput").files[0];
+let selectedFile = null; // फोटो डेटा स्टोर करने के लिए
+
+function showPreview(input) {
+    const file = input.files[0];
     const preview = document.getElementById("preview");
     const btnIn = document.getElementById("btnIn");
     const btnOut = document.getElementById("btnOut");
+    const statusDiv = document.getElementById("statusMessage");
 
     if (file) {
+        selectedFile = file; // फाइल को ग्लोबल वेरिएबल में रखें
         const reader = new FileReader();
         reader.onload = function(e) {
             preview.src = e.target.result;
@@ -91,12 +117,13 @@ function showPreview() {
             btnIn.classList.add("ready");
             btnOut.classList.add("ready");
             
-            document.getElementById("statusMessage").innerHTML = "✅ फोटो मिल गई! अब हाजिरी लगायें।";
-            document.getElementById("statusMessage").style.color = "green";
+            statusDiv.innerHTML = "✅ फोटो मिल गई! अब हाजिरी लगायें।";
+            statusDiv.style.color = "green";
         }
         reader.readAsDataURL(file);
     }
 }
+
 
 // 3. डेटा भेजना
 function processAttendance(type) {
