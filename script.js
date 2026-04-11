@@ -1,29 +1,19 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuNgvUNcDQXt-D4JfazMY8VZG9tRVAnYv-rTtdfoXKDysRLbSK8ut3lKSnb5ihYJfl/exec";
 
-
-// --- 1. डेटा सेव करने वाला हिस्सा (Worker + Owner + Booking) ---
+// --- 1. डेटा सेव करने वाला हिस्सा ---
 document.addEventListener("submit", function(e) {
-    e.preventDefault();
     const form = e.target;
-    
-    // सर्च फॉर्म को छोड़कर बाकी सबको प्रोसेस करेगा
     if (form.id === "searchForm") return;
 
+    e.preventDefault();
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     
-    // script.js के अंदर जहाँ data निकाला है, उसके नीचे डालें:
-if (data.regMobile && data.regMobile.length !== 10) {
-    alert("❌ त्रुटि: मोबाइल नंबर 10 अंकों का होना चाहिए!");
-    if(submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = "सबमिट करें";
+    if (data.regMobile && data.regMobile.length !== 10) {
+        alert("❌ त्रुटि: मोबाइल नंबर 10 अंकों का होना चाहिए!");
+        return;
     }
-    return; // फॉर्म को आगे नहीं बढ़ने देगा
-}
 
-
-    // बटन लोडिंग दिखाएगा
     const submitBtn = form.querySelector('button[type="submit"]');
     if(submitBtn) {
         submitBtn.disabled = true;
@@ -35,31 +25,14 @@ if (data.regMobile && data.regMobile.length !== 10) {
         mode: 'no-cors', 
         body: JSON.stringify(data) 
     })
-            .then(() => {
-        // 'type' को छोटा (lowercase) करके चेक करें ताकि कोई गलती न हो
+    .then(() => {
         let type = (data.userType || "").toLowerCase().trim(); 
-        let userRole = "रजिस्ट्रेशन";
-
-        if(type === 'worker') {
-            userRole = "वर्कर रजिस्ट्रेशन";
-        } else if(type === 'owner') {
-            userRole = "मालिक रजिस्ट्रेशन";
-        } else if(type === 'booking') {
-            userRole = "बुकिंग";
-        }
-
-        alert("✅ सफलता: " + userRole + " सफल हुआ!");
+        alert("✅ सफलता: डेटा सुरक्षित कर लिया गया है!");
         form.reset();
-   
-
-        
-        // अगर बुकिंग है तो पेमेंट पेज पर भेजेगा
         if (type === "booking") {
             window.location.href = 'payment-success.html';
         }
     })
-
-    
     .catch(err => {
         alert("❌ त्रुटि: डेटा सेव नहीं हो सका।");
         console.error(err);
@@ -72,7 +45,7 @@ if (data.regMobile && data.regMobile.length !== 10) {
     });
 });
 
-// --- 2. वर्कर खोजने वाला हिस्सा (Search) ---
+// --- 2. सर्च और अन्य फंक्शन ---
 async function searchWorkers() {
     const city = document.getElementById("cityInput").value.trim();
     const work = document.getElementById("workInput").value.trim();
@@ -101,7 +74,6 @@ async function searchWorkers() {
                 <div class="worker-card">
                     <p><b>👤 नाम:</b> ${w.name}</p>
                     <p><b>🔧 काम:</b> ${w.work}</p>
-                    <p><b>📍 शहर:</b> ${w.city}</p>
                     <button onclick="showBookingForm()" style="background:#27ae60; color:white; padding:10px; border:none; border-radius:5px; width:100%;">अभी बुक करें</button>
                 </div>`;
         });
@@ -110,42 +82,44 @@ async function searchWorkers() {
     }
 }
 
-let attendanceType = "";
+// --- 3. बुकिंग और रजिस्ट्रेशन हैंडलिंग (सुधारा हुआ हिस्सा) ---
+const bookingForm = document.getElementById("bookingForm");
+const bookingBtn = document.querySelector("#bookingForm .submit-btn");
 
-// कैमरे को ट्रिगर करने वाला फंक्शन
-function openCamera(type) {
-    attendanceType = type;
-    document.getElementById("cameraInput").click(); // कैमरा इनपुट पर क्लिक करेगा
+if (bookingBtn) {
+    bookingBtn.classList.add("btn-disabled");
+    bookingBtn.disabled = true;
+    bookingBtn.innerText = "पहले रजिस्ट्रेशन करें 🔒";
 }
 
-// फोटो चुनने के बाद का प्रोसेस
-function uploadPhoto() {
-    const status = document.getElementById("statusMessage");
-    const fileInput = document.getElementById("cameraInput");
-    
-    if (fileInput.files.length === 0) return;
-
-    status.innerHTML = "⏳ फोटो अपलोड हो रही है...";
-    
-    // यहाँ आप डेटा तैयार करेंगे (यह डेटा आपकी Google Sheet में जाएगा)
-    const data = {
-        userType: "Attendance",
-        action: attendanceType,
-        time: new Date().toLocaleString()
-    };
-
-    // Google Script पर डेटा भेजना
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify(data)
-    })
-    .then(() => {
-        status.innerHTML = "✅ " + (attendanceType === 'In' ? 'Check In' : 'Check Out') + " सफल रहा!";
-        alert("बधाई हो! आपकी हाजिरी लग गई है।");
-    })
-    .catch(err => {
-        status.innerHTML = "❌ एरर: हाजिरी नहीं लग पाई।";
-        console.error(err);
+if (bookingForm) {
+    bookingForm.addEventListener("submit", function(e) {
+        if (bookingBtn.disabled) {
+            e.preventDefault();
+            alert("❌ कृपया पहले ऊपर वाला पंजीकरण फॉर्म भरें!");
+            document.getElementById("ownerForm").scrollIntoView({ behavior: 'smooth' });
+        }
     });
+}
+
+const ownerForm = document.getElementById("ownerForm");
+if (ownerForm) {
+    ownerForm.addEventListener("submit", function(e) {
+        // रजिस्ट्रेशन सफल होने का संकेत (यहाँ आप अपना Fetch कॉल भी डाल सकते हैं)
+        alert("✅ रजिस्ट्रेशन सफल! अब आप कारीगर बुक कर सकते हैं।");
+        if (bookingBtn) {
+            bookingBtn.classList.remove("btn-disabled");
+            bookingBtn.disabled = false;
+            bookingBtn.innerText = "बुकिंग कन्फर्म करें ✅";
+            bookingBtn.style.backgroundColor = "#27ae60";
+        }
+    });
+}
+
+function showBookingForm() {
+    var section = document.getElementById("booking-section");
+    if (section) {
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
 }
