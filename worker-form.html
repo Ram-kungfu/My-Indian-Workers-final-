@@ -94,19 +94,27 @@ placeholder="अपना शहर लिखें (जैसे: अयोध�
     </button>
 </div>
 
-<div style="background:white; padding:20px; border-radius:15px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-    <h3>अपनी हाजिरी दर्ज करें</h3>
+<div style="background:white; padding:20px; border-radius:15px; box-shadow:0 4px 8px rgba(0,0,0,0.1); text-align: center;">
+    <h3>📸 फोटो अपलोड / हाजिरी</h3>
     
+    <input type="file" id="attendanceFile" accept="image/*" style="display: none;" onchange="alert('फोटो सेलेक्ट हो गई!')">
+
+    <div onclick="document.getElementById('attendanceFile').click()" style="cursor:pointer; margin-bottom: 20px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" width="60" alt="Camera">
+        <p style="font-size: 12px; color: gray;">फोटो चुनें या खींचें</p>
+    </div>
+
     <button onclick="takeAttendance('In')" 
-            style="background:#27ae60; color:white; width:100%; padding:15px; margin-bottom:10px; border:none; border-radius:8px; font-weight:bold;">
+            style="background:#27ae60; color:white; width:100%; padding:15px; margin-bottom:10px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
         ✅ पहुँच गया (Check In)
     </button>
 
     <button onclick="takeAttendance('Out')" 
-            style="background:#e67e22; color:white; width:100%; padding:15px; border:none; border-radius:8px; font-weight:bold;">
+            style="background:#e67e22; color:white; width:100%; padding:15px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
         🚩 काम खत्म (Check Out)
     </button>
 </div>
+
 
    <a href="login-choice.html" class="back">← वापस जाएँ</a>
 </div>

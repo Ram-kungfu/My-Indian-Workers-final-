@@ -56,8 +56,16 @@
         <h2 style="color:white; margin:0;">बुकिंग स्वीकार की गई!</h2>
     </div>
 
-    <div class="content">
-        <div class="booking-id">ID: #MIB-5797</div>
+    <div class="booking-id">ID: <span id="booking-id">#MIB-5797</span></div>
+
+<script>
+    function generateBookingID() {
+        const randomNumber = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById("booking-id").innerText = "#MIB-" + randomNumber;
+    }
+    window.onload = generateBookingID;
+</script>
+
 
         <div class="warning-box">
             <strong>⚠️ महत्वपूर्ण:</strong> बुकिंग कन्फर्म करने के लिए ₹200 का एडवांस पेमेंट अनिवार्य है।
@@ -79,7 +87,8 @@
 
 
         <strong>QR कोड स्कैन करें</strong>
-        <img src="my_qr_code.jpg" alt="QR Code" class="qr-code">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9793400647@ptyes%26pn=My%20Indian%20Karigar%26cu=INR%26am=200" alt="QR Code" class="qr-code">
+
 
 
        
