@@ -16,7 +16,7 @@
         .bank-details { text-align: left; font-size: 14px; line-height: 1.8; }
         .copy-btn { background: #f39c12; color: white; border: none; padding: 2px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 5px; }
         .qr-code { width: 180px; height: 180px; margin: 15px auto; border: 3px solid #ddd; padding: 5px; display: block; }
-        .upi-btn { display: block; background: #2980b9; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 18px; margin: 20px; }
+        .upi-btn { display: block; background: #2980b9; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 18px; margin: 20px; cursor: pointer; }
         .wa-button { background: #25d366; color: white; border: none; padding: 15px; border-radius: 8px; display: block; font-weight: bold; font-size: 16px; margin: 10px 20px; width: calc(100% - 40px); cursor: pointer; }
         hr { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
     </style>
@@ -43,15 +43,16 @@
             <p>A/C: <b>924010045446944</b> <button class="copy-btn" onclick="copyText('924010045446944')">Copy</button></p>
             <p>IFSC: <b>UTIB0005282</b> <button class="copy-btn" onclick="copyText('UTIB0005282')">Copy</button></p>
         </div>
+        <p style="font-size: 12px; color: #d35400; margin-top: 10px; font-weight: bold;">
+            * UPI काम न करने पर सीधे बैंक ट्रांसफर करें।
+        </p>
     </div>
 
-    <a href="upi://pay?pa=9793400647@paytm&pn=My%20Indian%20Karigar&cu=INR" class="upi-btn">
-    📱 Google Pay / PhonePe / Paytm से पे करें
-</a>
+    <a onclick="openUPI()" class="upi-btn">
+        📱 Google Pay / PhonePe / Paytm से पे करें
+    </a>
 
-
-   <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9793400647@paytm%26pn=My%20Indian%20Karigar%26cu=INR" alt="Paytm QR Code" class="qr-code">
-
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9793400647@paytm%26pn=My%20Indian%20Karigar%26cu=INR" alt="QR Code" class="qr-code">
 
     <hr>
     <p style="font-size: 13px; color: #666; margin-bottom: 10px;">भुगतान के बाद स्क्रीनशॉट व्हाट्सएप पर भेजें:</p>
@@ -63,15 +64,14 @@
     <br>
     <a href="index.html" style="color: #7f8c8d; text-decoration: none; font-size: 13px; display: block; margin-bottom: 10px;">← वापस जाएँ</a>
 </div>
+
 <script>
-    // 1. ऑटोमेटिक बुकिंग ID जेनरेट करना
     function generateBookingID() {
         const randomNumber = Math.floor(1000 + Math.random() * 9000);
         document.getElementById("booking-id").innerText = "#MIB-" + randomNumber;
     }
     window.onload = generateBookingID;
 
-    // 2. टेक्स्ट कॉपी करने का फंक्शन
     function copyText(val) {
         const tempInput = document.createElement("input");
         tempInput.value = val;
@@ -82,20 +82,15 @@
         alert("कॉपी हो गया: " + val);
     }
 
-    // 3. UPI ऐप खोलने का फंक्शन और अलर्ट मैसेज
     function openUPI() {
         const upiLink = "upi://pay?pa=9793400647@paytm&pn=My%20Indian%20Karigar&cu=INR";
-        
-        // ऐप खोलने की कोशिश
         window.location.href = upiLink;
 
-        // यदि 2.5 सेकंड में ऐप नहीं खुला या पेमेंट में दिक्कत आई, तो यह अलर्ट दिखेगा
         setTimeout(function() {
-            alert("⚠️ सूचना:\nयदि UPI ऐप नहीं खुल रहा है या पेमेंट फेल हो रहा है, तो कृपया नीचे दिए गए QR कोड का स्क्रीनशॉट लेकर पेमेंट करें या बैंक डिटेल्स का उपयोग करें।");
-        }, 2500);
+            alert("⚠️ सूचना:\nयदि UPI ऐप्स या QR कोड काम नहीं कर रहे हैं, तो कृपया ऊपर दिए गए 'Bank Details' का उपयोग करके पैसे भेजें और स्क्रीनशॉट व्हाट्सएप करें।");
+        }, 3000);
     }
 
-    // 4. व्हाट्सएप फंक्शन
     function openWhatsApp() {
         const phone = "8840393880"; 
         const bookingId = document.getElementById("booking-id").innerText;
@@ -104,7 +99,6 @@
         window.location.assign(waUrl);
     }
 </script>
-
 
 </body>
 </html>
