@@ -63,7 +63,6 @@
     <br>
     <a href="index.html" style="color: #7f8c8d; text-decoration: none; font-size: 13px; display: block; margin-bottom: 10px;">← वापस जाएँ</a>
 </div>
-
 <script>
     // 1. ऑटोमेटिक बुकिंग ID जेनरेट करना
     function generateBookingID() {
@@ -83,17 +82,20 @@
         alert("कॉपी हो गया: " + val);
     }
 
-    // 3. UPI ऐप खोलने का फंक्शन
+    // 3. UPI ऐप खोलने का फंक्शन और अलर्ट मैसेज
     function openUPI() {
-        const upiLink = "upi://pay?pa=9793400647@ptyes&pn=My%20Indian%20Karigar&cu=INR";
+        const upiLink = "upi://pay?pa=9793400647@paytm&pn=My%20Indian%20Karigar&cu=INR";
+        
+        // ऐप खोलने की कोशिश
         window.location.href = upiLink;
 
-        setTimeout(() => {
-            alert("यदि UPI ऐप नहीं खुला, तो कृपया QR कोड का स्क्रीनशॉट लेकर पेमेंट करें या बैंक डिटेल्स कॉपी करें।");
+        // यदि 2.5 सेकंड में ऐप नहीं खुला या पेमेंट में दिक्कत आई, तो यह अलर्ट दिखेगा
+        setTimeout(function() {
+            alert("⚠️ सूचना:\nयदि UPI ऐप नहीं खुल रहा है या पेमेंट फेल हो रहा है, तो कृपया नीचे दिए गए QR कोड का स्क्रीनशॉट लेकर पेमेंट करें या बैंक डिटेल्स का उपयोग करें।");
         }, 2500);
     }
 
-    // 4. व्हाट्सएप पर मैसेज भेजने का फंक्शन (Dynamic ID के साथ)
+    // 4. व्हाट्सएप फंक्शन
     function openWhatsApp() {
         const phone = "8840393880"; 
         const bookingId = document.getElementById("booking-id").innerText;
@@ -102,6 +104,7 @@
         window.location.assign(waUrl);
     }
 </script>
+
 
 </body>
 </html>
