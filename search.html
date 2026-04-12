@@ -3,32 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>वर्कर खोजें - My Indian Karigar</title>
+    <title>एडवांस सर्च - My Indian Karigar</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 15px; }
-        .search-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #f39c12; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .worker-card { border: 1px solid #d35400; padding: 15px; margin-bottom: 10px; border-radius: 10px; background: #fff; text-align: left; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; padding: 15px; }
+        .search-box { 
+            background: white; padding: 25px; border-radius: 15px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); max-width: 500px; margin: 20px auto; 
+        }
+        h2 { text-align: center; color: #f39c12; margin-top: 0; }
+        label { font-weight: bold; color: #444; display: block; margin-top: 15px; }
+        select { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; 
+            border-radius: 10px; font-size: 16px; margin-top: 5px; box-sizing: border-box;
+        }
+        button { 
+            width: 100%; padding: 15px; background: #f39c12; color: white; 
+            border: none; border-radius: 10px; font-weight: bold; font-size: 18px; 
+            cursor: pointer; margin-top: 25px; transition: 0.3s;
+        }
+        button:hover { background: #d35400; }
+        #results { max-width: 500px; margin: 20px auto; }
+        .worker-card { 
+            background: white; padding: 15px; border-radius: 10px; 
+            margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 5px solid #f39c12;
+        }
+        .back-link { margin-top: 20px; display: block; text-decoration: none; color: #f39c12; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="search-box">
-        <h2 style="text-align: center; color: #f39c12;">🛠️ वर्कर खोजें</h2>
-        <input type="text" id="cityInput" placeholder="शहर का नाम (जैसे: Lucknow)">
-        <select id="workInput">
-            <option value="">काम की कैटेगरी चुनें</option>
-            <option value="Plumber">प्लंबर</option>
-            <option value="Electrician">इलेक्ट्रीशियन</option>
-            <option value="Carpenter">बढ़ई</option>
-            <option value="Mason">मिस्त्री</option>
-        </select>
-        <button onclick="searchWorkers()">खोजें</button>
-    </div>
+<div class="search-box">
+    <h2>🛠️ सटीक कारीगर खोजें</h2>
+    
+    <label>1. राज्य चुनें:</label>
+    <select id="stateInput" onchange="updateDistricts()">
+        <option value="">-- राज्य चुनें --</option>
+        <option value="UP">उत्तर प्रदेश (Uttar Pradesh)</option>
+        <option value="Bihar">बिहार (Bihar)</option>
+        <option value="MP">मध्य प्रदेश (Madhya Pradesh)</option>
+        <option value="Gujarat">गुजरात (Gujarat)</option>
+        <option value="Delhi">दिल्ली (Delhi)</option>
+    </select>
 
-    <div id="results"></div>
+    <label>2. जिला चुनें:</label>
+    <select id="districtInput" onchange="updateCities()">
+        <option value="">-- पहले राज्य चुनें --</option>
+    </select>
 
-    <script src="script.js"></script>
+    <label>3. अपना शहर चुनें:</label>
+    <select id="cityInput">
+        <option value="">-- पहले जिला चुनें --</option>
+    </select>
+
+    <label>4. क्या काम है?</label>
+    <select id="workInput">
+        <option value="">-- काम चुनें --</option>
+        <option value="Plumber">प्लंबर (Plumber)</option>
+        <option value="Electrician">इलेक्ट्रीशियन</option>
+        <option value="Carpenter">बढ़ई (Carpenter)</option>
+        <option value="Mason">राजमिस्त्री (Mason)</option>
+        <option value="Painter">पेंटर (Painter)</option>
+        <option value="Welder">वेल्डर (Welder)</option>
+        <option value="AC Mechanic">एसी मैकेनिक</option>
+        <option value="Tiles Mistri">टाइल्स मिस्त्री</option>
+        <option value="Labour">मजदूर (Labour)</option>
+        <option value="Other">अन्य (Other)</option>
+    </select>
+
+    <button id="searchBtn" onclick="searchWorkers()">🔍 कारीगर खोजें</button>
+    
+    <a href="index.html" class="back-link">⬅ मुख्य पेज पर वापस जाएं</a>
+</div>
+
+<div id="results"></div>
+
+<script>
+  const fullData = {
+  "UP": {
+    "Ayodhya": ["Ayodhya City", "Faizabad", "Goshainganj", "Rudauli", "Milkeepur", "Bikapur", "Sohawal"],
+    "Lucknow": ["Lucknow City", "Alambagh", "Gomti Nagar", "Bakshi Ka Talab", "Charbagh", "Malihabad"],
+    "Pratapgarh": ["Pratapgarh City", "Kunda", "Patti", "Raniganj", "Lalganj", "Lalganj Ajhara"],
+    "Sultanpur": ["Sultanpur City", "Kadipur", "Lambhua", "Jai Singh Pur", "Musafirkhana"],
+    "Amethi": ["Gauriganj", "Amethi City", "Musafirkhana", "Tiloi", "Jagdishpur"],
+    "Prayagraj": ["Allahabad City", "Phaphamau", "Naini", "Jhusi", "Soraon", "Handia"],
+    "Varanasi": ["Varanasi City", "Sarnath", "Shivpur", "Lanka", "Babatpur", "Pindra"],
+    "Kanpur": ["Kanpur Nagar", "Kalyanpur", "Jajmau", "Kidwai Nagar", "Akbarpur", "Bilhaur"],
+    "Gorakhpur": ["Gorakhpur City", "Sahjanwa", "Chauri Chaura", "Campierganj", "Pipraich"],
+    "Basti": ["Basti City", "Harraiya", "Rudhauli", "Bhanpur", "Kaptanganj"],
+    "Gonda": ["Gonda City", "Colonelganj", "Tarabganj", "Mankapur", "Katra"],
+    "Bahraich": ["Bahraich City", "Nanpara", "Kaisarganj", "Mahasi", "Payagpur"],
+    "Jaunpur": ["Jaunpur City", "Shahganj", "Machhlishahr", "Mariahu", "Kerakat"],
+    "Azamgarh": ["Azamgarh City", "Sagri", "Phulpur", "Lalganj", "Nizamabad"],
+    "Deoria": ["Deoria City", "Salempur", "Rudrapur", "Barhaj", "Bhatpar Rani"],
+    "Ghazipur": ["Ghazipur City", "Zamania", "Mohammadabad", "Saidpur", "Dildarnagar"],
+    "Mirzapur": ["Mirzapur City", "Chunar", "Marihan", "Lalganj", "Sikhar"],
+    "Raebareli": ["Raebareli City", "Lalganj", "Salon", "Maharajganj", "Unchahar"],
+    "Unnao": ["Unnao City", "Safipur", "Purwa", "Bangarmau", "Hasanganj"],
+    "Agra": ["Agra City", "Tajganj", "Dayalbagh", "Fatehabad", "Etmadpur", "Bah"],
+    "Mathura": ["Mathura City", "Vrindavan", "Goverdhan", "Kosi Kalan", "Chhata"],
+    "Aligarh": ["Aligarh City", "Atrauli", "Khair", "Iglas", "Gabhana"],
+    "Jhansi": ["Jhansi City", "Mauranipur", "Moth", "Garautha", "Babina"],
+    "Bareilly": ["Bareilly City", "Baheri", "Aonla", "Faridpur", "Nawabganj"],
+    "Meerut": ["Meerut City", "Sardhana", "Modinagar", "Mawana", "Hastinapur"],
+    "Ghaziabad": ["Ghaziabad City", "Loni", "Modinagar", "Muradnagar", "Indirapuram"],
+    "Gautam Buddha Nagar": ["Noida", "Greater Noida", "Dadri", "Jewar", "Rabupura"],
+    "Saharanpur": ["Saharanpur City", "Deoband", "Gangoh", "Behat", "Nakur"]
+  },
+
+
+    "Bihar": { // दूसरा राज्य
+        "Patna": ["Patna City", "Danapur", "Phulwari Sharif", "Kankarbagh"],
+        "Gaya": ["Gaya City", "Bodh Gaya", "Sherghati"],
+        "Muzaffarpur": ["Muzaffarpur City", "Kanti", "Motipur"]
+    }
+    // आप इसी तरह दिल्ली, गुजरात और मध्य प्रदेश भी जोड़ सकते हैं
+};
+
+    
+
+
+    function updateDistricts() {
+        const state = document.getElementById("stateInput").value;
+        const districtSelect = document.getElementById("districtInput");
+        const citySelect = document.getElementById("cityInput");
+        districtSelect.innerHTML = '<option value="">-- जिला चुनें --</option>';
+        citySelect.innerHTML = '<option value="">-- पहले जिला चुनें --</option>';
+
+        if (state && fullData[state]) {
+            Object.keys(fullData[state]).sort().forEach(district => {
+                let opt = document.createElement("option");
+                opt.value = district;
+                opt.text = district;
+                districtSelect.add(opt);
+            });
+        }
+    }
+
+    function updateCities() {
+        const state = document.getElementById("stateInput").value;
+        const district = document.getElementById("districtInput").value;
+        const citySelect = document.getElementById("cityInput");
+        citySelect.innerHTML = '<option value="">-- शहर चुनें --</option>';
+
+        if (state && district && fullData[state][district]) {
+            fullData[state][district].sort().forEach(city => {
+                let opt = document.createElement("option");
+                opt.value = city;
+                opt.text = city;
+                citySelect.add(opt);
+            });
+        }
+    }
+
+    function searchWorkers() {
+        const state = document.getElementById('stateInput').value;
+        const district = document.getElementById('districtInput').value;
+        const city = document.getElementById('cityInput').value;
+        const work = document.getElementById('workInput').value;
+        const resultsDiv = document.getElementById('results');
+
+        if (!state || !district || !city || !work) {
+            alert("कृपया सभी विकल्प चुनें!");
+            return;
+        }
+
+        resultsDiv.innerHTML = "<p style='text-align:center;'>⏳ खोज रहे हैं...</p>";
+
+        // अगर आप Google Sheets इस्तेमाल कर रहे हैं तो यहाँ fetch() लगेगा
+        // अभी मैं आपको दिखाने के लिए एक डमी मैसेज दिखा रहा हूँ
+        setTimeout(() => {
+            resultsDiv.innerHTML = `
+                <div class="worker-card">
+                    <h3>🔍 सर्च रिजल्ट:</h3>
+                    <p><b>राज्य:</b> ${state}</p>
+                    <p><b>जिला:</b> ${district}</p>
+                    <p><b>शहर:</b> ${city}</p>
+                    <p><b>काम:</b> ${work}</p>
+                    <hr>
+                    <p style="color:red; text-align:center;">डेटाबेस में अभी कोई कारीगर नहीं मिला।</p>
+                </div>
+            `;
+        }, 1000);
+    }
+</script>
+
+
+
+
+   
+
+
+    
+ <script src="script.js"></script>
 </body>
 </html>
