@@ -66,15 +66,70 @@
         id="regCity"
         placeholder="अपना शहर (जैसे: अयोध्या)" required>
         
-  <div style="text-align: left; margin: 15px 0; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-    <label style="font-weight: bold; color: #333; display: block; margin-bottom: 10px;">आधार कार्ड अपलोड (Front & Back):</label>
+  <div style="text-align: left; margin: 15px 0; border: 1px solid #ddd; padding: 15px; border-radius: 10px; background-color: #f9f9f9;">
+    <label style="font-weight: bold; color: #333; display: block; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+        आधार कार्ड अपलोड (Front Side):
+    </label>
 
-    <input type="file" name="aadharFront" id="aadharFront" accept="image/*" required>
-    <small style="color: gray; display: block; margin-bottom: 10px;">सामने की फोटो (Front)</small>
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <button type="button" onclick="document.getElementById('aadharFrontCam').click()" style="flex: 1; padding: 10px; background: #34495e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            📷 कैमरा
+        </button>
+        <button type="button" onclick="document.getElementById('aadharFrontFile').click()" style="flex: 1; padding: 10px; background: #7f8c8d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            📁 गैलरी
+        </button>
+    </div>
+    
+    <input type="file" name="aadharFront" id="aadharFrontCam" accept="image/*" capture="camera" style="display: none;" onchange="updateStatus(this, 'frontStatus')">
+<input type="file" name="aadharFront" id="aadharFrontFile" accept="image/*" style="display: none;" onchange="updateStatus(this, 'frontStatus')">
 
-    <input type="file" name="aadharBack" id="aadharBack" accept="image/*" required>
-    <small style="color: gray; display: block;">पीछे की फोटो (Back)</small>
+<input type="file" name="aadharBack" id="aadharBackCam" accept="image/*" capture="camera" style="display: none;" onchange="updateStatus(this, 'backStatus')">
+<input type="file" name="aadharBack" id="aadharBackFile" accept="image/*" style="display: none;" onchange="updateStatus(this, 'backStatus')">
+
+    <small id="frontStatus" style="color: #27ae60; display: block; margin-top: -10px; font-weight: bold;"></small>
+
+    <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+
+    <label style="font-weight: bold; color: #333; display: block; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+        आधार कार्ड अपलोड (Back Side):
+    </label>
+
+    <div style="display: flex; gap: 10px;">
+        <button type="button" onclick="document.getElementById('aadharBackCam').click()" style="flex: 1; padding: 10px; background: #34495e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            📷 कैमरा
+        </button>
+        <button type="button" onclick="document.getElementById('aadharBackFile').click()" style="flex: 1; padding: 10px; background: #7f8c8d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            📁 गैलरी
+        </button>
+    </div>
+
+    <input type="file" name="aadharFront" id="aadharFrontCam" accept="image/*" capture="camera" style="display: none;" onchange="updateStatus(this, 'frontStatus')">
+<input type="file" name="aadharFront" id="aadharFrontFile" accept="image/*" style="display: none;" onchange="updateStatus(this, 'frontStatus')">
+
+<input type="file" name="aadharBack" id="aadharBackCam" accept="image/*" capture="camera" style="display: none;" onchange="updateStatus(this, 'backStatus')">
+<input type="file" name="aadharBack" id="aadharBackFile" accept="image/*" style="display: none;" onchange="updateStatus(this, 'backStatus')">
+
+    <small id="backStatus" style="color: #27ae60; display: block; margin-top: 5px; font-weight: bold;"></small>
 </div>
+
+<script>
+function updateStatus(input, statusId) {
+    const statusElement = document.getElementById(statusId);
+    
+    if (input.files && input.files[0]) {
+        // फाइल का नाम निकालने के लिए
+        const fileName = input.files[0].name;
+        
+        // स्टेटस में फाइल का नाम दिखाना
+        statusElement.innerText = "✅ फाइल: " + fileName;
+        statusElement.style.color = "#27ae60"; // हरा रंग
+    } else {
+        statusElement.innerText = "";
+    }
+}
+</script>
+
+
 
         
         <button type="submit" class="submit-btn">सबमिट करें</button>
